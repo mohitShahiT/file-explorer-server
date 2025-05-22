@@ -1,20 +1,24 @@
-import express from "express"
-import {Request, Response} from "express-serve-static-core"
-const app = express()
+import express from "express";
+import { Request, Response } from "express-serve-static-core";
+import folderRouter from "./folderRouter";
+import { buildFolder } from "./utils";
+const app = express();
 
-const PORT = 3000
+const PORT = 3000;
 
-app.use("/test", (req:Request, res:Response)=>{
-    console.log(req.headers);
-    res.status(200).json({
-        status: "success",
-        message: "server is live"
-    })
-})
+app.use(express.json());
 
-app.listen(PORT, ()=>{
-    console.log(`Server is running on port ${PORT}`)
-})
+app.use("/test", (req: Request, res: Response) => {
+  console.log(req.headers);
+  res.status(200).json({
+    status: "success",
+    message: "server is live",
+  });
+});
 
+buildFolder();
+app.use("/api/folder", folderRouter);
 
-
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
