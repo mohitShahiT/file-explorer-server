@@ -1,7 +1,8 @@
 import { Router } from "express";
 import { Request, Response } from "express-serve-static-core";
 import { folders } from "./folder";
-import { createFolder, getRootFolder } from "./utils";
+import { createFolder, getItemWithPath, getRootFolder } from "./utils";
+
 const router = Router();
 
 interface PathQuery {
@@ -25,12 +26,22 @@ router.get("/", (req: Request<{}, {}, {}, PathQuery>, res: Response) => {
       });
       return;
     }
-    const folderPath = path.split("/");
+    const pathArray = path.split("/");
+    if (pathArray[0] !== "root") {
+      res.status(401).json({
+        status: "fail",
+        message: "Path should start from root i.e. absolute path only",
+      });
+      return;
+    }
+    const folder = getItemWithPath(pathArray);
+
     res.status(200).json({
       status: "success",
       data: {
-        folders,
-        folderPath,
+        path: pathArray.join("/"),
+        folder,
+        parent: pathArray[pathArray.length - 1],
       },
     });
   } catch (err) {
