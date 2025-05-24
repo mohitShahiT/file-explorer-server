@@ -80,6 +80,8 @@ export function buildFolder() {
   const { id: picId } = createFolder("pictures", ROOT_ID);
 
   const { id: projectsId } = createFolder("projects", docId);
+  const { id: reactapp } = createFolder("react app", docId);
+  createFolder("src", reactapp);
   const { id: reactId } = createFolder("react app", projectsId);
   const { id: srcId } = createFolder("src", reactId);
 
