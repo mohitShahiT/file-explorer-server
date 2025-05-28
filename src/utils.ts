@@ -49,6 +49,14 @@ export function createFolder(name: string, parentId: string): Folder {
   return newFolder;
 }
 
+export function createFile(name: string, parentId: string) {
+  const nameArr = name.split(".");
+  // if(nameArr.length >)
+  // if(!extension) {
+
+  // }
+}
+
 export function getRootFolder() {
   return getItemWithId(ROOT_ID);
 }
