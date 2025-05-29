@@ -82,8 +82,18 @@ export function getChildItems(parentId: string) {
 type Children = string[];
 type FolderStructure = [string, Children] | [string, FolderStructure];
 
+function createFolderDelay(
+  name: string,
+  rootId: string,
+  cb: (name: string, rootId: string) => Folder
+) {
+  return function () {
+    return cb(name, rootId);
+  };
+}
+
 export function buildFolder() {
-  const { id: docId } = createFolder("documents", ROOT_ID);
+  const { id: docId } = createFolderDelay("documents", ROOT_ID, createFolder)();
   const { id: downId } = createFolder("downloads", ROOT_ID);
   const { id: picId } = createFolder("pictures", ROOT_ID);
 
