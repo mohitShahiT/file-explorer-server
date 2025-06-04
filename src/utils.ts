@@ -1,20 +1,54 @@
 import { files, folders, ROOT_ID } from "./folder";
-import { File, FileKinds, Folder } from "./types";
+import { File, FileKinds, Folder, Item } from "./types";
 import { nanoid } from "nanoid";
 
-export function getItemsWithIds(itemIds: string[]): (Folder | File)[] {
-  const matchedFolders: (Folder | File)[] = [...folders, ...files].filter(
-    ({ id }) => itemIds.includes(id)
-  );
-  return matchedFolders;
+export function getItemsWithIds(
+  itemIds: string[],
+  itemType?: Item
+): (Folder | File)[] {
+  let matchedItems: (Folder | File)[] = [];
+  if (!itemType) {
+    matchedItems = [...folders, ...files].filter(({ id }) =>
+      itemIds.includes(id)
+    );
+  } else if (itemType === "Folder") {
+    matchedItems = [...folders].filter(({ id }) => itemIds.includes(id));
+  } else if (itemType === "File") {
+    matchedItems = [...files].filter(({ id }) => itemIds.includes(id));
+  }
+
+  return matchedItems;
 }
 
-export function getItemWithId(folderId: string): Folder | File {
-  return folders.find((folder) => folder.id === folderId);
+export function getFoldersWithIds(ids: string[]) {
+  return getItemsWithIds(ids, "Folder") as Folder[];
+}
+
+export function getFilesWithIds(ids: string[]) {
+  return getItemsWithIds(ids, "File") as File[];
+}
+
+export function getItemWithId(itemId: string, itemType?: Item): Folder | File {
+  if (!itemType) {
+    return [...folders, ...files].find((item) => item.id === itemId);
+  } else if (itemType === "Folder") {
+    return [...folders].find(({ id }) => id === itemId);
+  } else if (itemType === "File") {
+    return [...files].find(({ id }) => id === itemId);
+  }
+  return null;
+}
+
+export function getFolderWithId(id: string) {
+  return getItemWithId(id, "Folder") as Folder;
+}
+
+export function getFileWithId(id: string) {
+  return getItemWithId(id, "File") as File;
 }
 
 export function isNameAvailable(parentId: string, newName: string): boolean {
-  const parentFolder = getItemWithId(parentId) as Folder;
+  const parentFolder = getFolderWithId(parentId);
   if (!parentFolder)
     throw new Error(`No folder with that parent id found(${parentId})`);
   const childrenFolders = getItemsWithIds(parentFolder.children);
@@ -25,7 +59,7 @@ export function isNameAvailable(parentId: string, newName: string): boolean {
 }
 
 export function createFolder(name: string, parentId: string): Folder {
-  const parentFolder = getItemWithId(parentId) as Folder;
+  const parentFolder = getFolderWithId(parentId) as Folder;
   if (!parentFolder)
     throw new Error(`No folder with that parent id found(${parentId})`);
   if (!isNameAvailable(parentId, name))

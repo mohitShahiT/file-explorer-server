@@ -27,7 +27,7 @@ router.get("/", (req: Request<{}, {}, {}, PathQuery>, res: Response) => {
     }
     const pathArray = path.split("/");
     if (pathArray[0] !== "root") {
-      res.status(401).json({
+      res.status(400).json({
         status: "fail",
         message: "Path should start from root i.e. absolute path only",
       });
@@ -35,6 +35,7 @@ router.get("/", (req: Request<{}, {}, {}, PathQuery>, res: Response) => {
     }
     const folder = getItemWithPath(pathArray);
 
+    // TODO: Add parent id to the response
     res.status(200).json({
       status: "success",
       data: {
@@ -45,7 +46,7 @@ router.get("/", (req: Request<{}, {}, {}, PathQuery>, res: Response) => {
     });
   } catch (err) {
     console.log(err);
-    res.status(401).json({
+    res.status(400).json({
       status: "fail",
       message: err.message,
     });

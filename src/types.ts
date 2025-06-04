@@ -55,3 +55,5 @@ export interface File {
   size: number;
   kind: FileKinds;
 }
+
+export type Item = "Folder" | "File";
