@@ -51,7 +51,7 @@ export interface Folder {
 export interface File {
   id: string;
   name: string;
-  createdAt: string;
+  createdAt: number;
   size: number;
   kind: FileKinds;
 }
