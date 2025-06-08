@@ -177,6 +177,8 @@ export function buildFolder() {
   createFolder("src", reactapp);
   const { id: reactId } = createFolder("react app", projectsId);
   const { id: srcId } = createFolder("src", reactId);
+  createFile("index.jsx", srcId);
+  createFile("app.jsx", srcId);
 
   const { id: impId } = createFolder("important docs", docId);
 
@@ -197,9 +199,7 @@ export function getItemWithPath(pathArray: string[]) {
     let found = false;
     for (const childId of currentItem.children) {
       const childItem = getItemWithId(childId);
-      console.log(childItem.name, itemName);
       if (childItem.name === itemName) {
-        console.log("match", childItem.name, itemName);
         pathIdArray.push();
         currentId = childItem.id;
         found = true;
