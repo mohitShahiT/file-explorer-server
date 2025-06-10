@@ -1,6 +1,6 @@
 import express from "express"
 import { Request, Response } from "express-serve-static-core";
-import { createFile, getFileWithId, getItemWithId } from "./utils";
+import { createFile, getFileWithId, getItemWithId } from "../utils";
 const router = express.Router();
 
 router.get("/:id", (req: Request<{ id: string }>, res: Response) => {

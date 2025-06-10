@@ -1,7 +1,7 @@
 import express from "express";
 import { Request, Response } from "express-serve-static-core";
-import folderRouter from "./folderRouter";
-import fileRouter from "./fileRouter";
+import folderRouter from "./router/folderRouter";
+import fileRouter from "./router/fileRouter";
 import { buildFolder } from "./utils";
 import cors from "cors";
 const app = express();
@@ -19,8 +19,10 @@ app.use("/test", (req: Request, res: Response) => {
     message: "server is live",
   });
 });
-
-buildFolder();
+function bootstrap() {
+  buildFolder();
+}
+bootstrap();
 app.use("/api/folder", folderRouter);
 app.use("/api/file", fileRouter);
 

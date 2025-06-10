@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { Request, Response } from "express-serve-static-core";
-import { createFolder, getItemWithPath, getRootFolder } from "./utils";
+import { createFolder, getItemWithPath, getRootFolder } from "../utils";
 
 const router = Router();
 
