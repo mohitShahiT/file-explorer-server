@@ -10,7 +10,7 @@
     "build": "tsc"
   },
   "keywords": [],
-  "author": "",
+  "author": "Mohit Shahi",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
